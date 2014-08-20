@@ -1,6 +1,6 @@
 ﻿## go4rake: Rake tasks for cross-compiling Go programs [![Gem Version](https://badge.fury.io/rb/go4rake.svg)](http://badge.fury.io/rb/go4rake)
 
-This gem provides the following Rake tasks:
+This gem provides the following tasks:
 
 * `rake build` for cross-compiling for the specified architectures
 * `rake zip` command for making ZIP files that contain binary builds
