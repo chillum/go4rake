@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'go4rake'
-  s.version     = '0.9.2'
+  s.version     = '1.0'
   s.license     = 'Apache-2.0'
   s.summary     = 'go4rake is a Rake helper for cross-compiling Go programs'
   s.description = '`build`, `test` and `zip` tasks for cross-compilation of Go programs'
