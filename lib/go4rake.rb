@@ -23,6 +23,8 @@ require 'yaml'
 # Example config: https://github.com/chillum/httpstress-go/blob/master/go4rake.yml
 #
 # Docs: https://github.com/chillum/go4rake/blob/master/README.md
+#
+# Offline copies of README and example config are also included in this gem.
 class Go4Rake < ::Rake::TaskLib
   # Initialize Rake tasks for cross-compiling Go programs.
   def initialize(*args)
