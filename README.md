@@ -38,7 +38,7 @@ on Windows (7-zip? Don't know).
 have [this config](https://github.com/chillum/httpstress-go/blob/master/go4rake.yml).
 
 This way, you run `rake zip` and you get the following ZIP files
-containing the static binary files in your `~/Downloads` directory:
+containing the static binary builds in your `~/Downloads` directory:
 
 * `win32.zip`
 * `win64.zip`
