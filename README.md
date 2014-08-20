@@ -1,4 +1,4 @@
-﻿## go4rake is a Rake helper for cross-compiling Go programs
+﻿## go4rake is a Rake helper for cross-compiling Go programs [![Gem Version](https://badge.fury.io/rb/go4rake.svg)](http://badge.fury.io/rb/go4rake)
 
 It provides the following tasks:
 
