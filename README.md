@@ -42,7 +42,7 @@ This way, you run `rake zip` and you get these files containing the static binar
 * win32.zip
 * win64.zip
 * linux_amd64.zip
-* linux_i386.zip
+* linux_386.zip
 * mac.zip
 
 For each platform:

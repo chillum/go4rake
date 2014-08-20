@@ -22,6 +22,10 @@ require 'yaml'
 #
 # Example config: https://github.com/chillum/httpstress-go/blob/master/go4rake.yml
 #
+# With that config, you run `rake zip` and you get these files containing the
+# static binary files for all the specified platforms: `win32.zip`,
+# `win64.zip`, `linux_amd64.zip`, `linux_386.zip` and `mac.zip`.
+#
 # `name` is OS name, `arch` is arch and `zip` is ZIP file name (optional).
 # `arch` is appended to file name if `arch` is a list.
 #
