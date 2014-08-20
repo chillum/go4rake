@@ -22,15 +22,7 @@ require 'yaml'
 #
 # Example config: https://github.com/chillum/httpstress-go/blob/master/go4rake.yml
 #
-# With that config, you run `rake zip` and you get these files containing the
-# static binary files for all the specified platforms: `win32.zip`,
-# `win64.zip`, `linux_amd64.zip`, `linux_386.zip` and `mac.zip`.
-#
-# `name` is OS name, `arch` is arch and `zip` is ZIP file name (optional).
-# `arch` is appended to file name if `arch` is a list.
-#
-# If `out` is specified, ZIP files will appear in the specified directory;
-# if not, they will be in current directory.
+# Docs: https://github.com/chillum/go4rake/blob/master/README.md
 class Go4Rake < ::Rake::TaskLib
   # Initialize Rake tasks for cross-compiling Go programs.
   def initialize(*args)
