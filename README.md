@@ -25,7 +25,7 @@ on Windows (7-zip? Don't know).
   [build Go from source](http://dave.cheney.net/2013/07/09/an-introduction-to-cross-compilation-with-go-1-1).)
 * [Info-ZIP](http://www.info-zip.org/Zip.html) `zip` binary in path
   (ships with MacOS X and most Unix systems).
-* Install [Ruby](https://www.ruby-lang.org). `rake` and `gem` come with is.
+* Install [Ruby](https://www.ruby-lang.org). `rake` and `gem` come with it.
 * Install go4rake: `gem install go4rake`.
 * Enable go4rake in `Rakefile`: include `require 'go4rake'` in it (create the file, if missing).  
   (Unix users can do: `echo "require 'go4rake'" >> Rakefile`.)
