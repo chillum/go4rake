@@ -35,7 +35,7 @@ on Windows (7-zip? Don't know).
 ### Configuration
 
 `zip` and `build` tasks expect a YAML config, `go4rake.yml`. Say, we
-have [this config](https://github.com/chillum/httpstress-go/go4rake.yml).
+have [this config](https://github.com/chillum/httpstress-go/blob/master/go4rake.yml).
 
 This way, you run `rake zip` and you get these files containing the static binary files for all the specified platforms:
 

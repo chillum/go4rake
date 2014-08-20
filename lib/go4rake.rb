@@ -2,7 +2,7 @@
 #
 # Settings are specified in a YAML file: go4rake.yml.
 #
-# Example config: https://github.com/chillum/httpstress-go/go4rake.yml
+# Example config: https://github.com/chillum/httpstress-go/blob/master/go4rake.yml
 # `name` is OS name, `arch` is arch and `zip` is ZIP file name (optional).
 # `arch` is appended to file name if `arch` is a list.
 #
