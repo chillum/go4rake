@@ -28,14 +28,15 @@ require 'yaml'
 class Go4Rake < ::Rake::TaskLib
   # Initialize Rake tasks for cross-compiling Go programs.
   def initialize(*args)
+    @yml = 'go4rake.yml'
 
+    # `build` and `zip` depend on config, `test` doesn't.
     begin
-      yml = 'go4rake.yml'
-      config = YAML.load_file yml
+      @config = YAML.load_file @yml
 
-      desc "Build this project for the platforms in #{yml}"
+      desc "Build this project for the platforms in #{@yml}"
       task :build do
-        config['platforms'].each { |os|
+        @config['platforms'].each { |os|
           if os['arch'].respond_to?('each')
             os['arch'].each { |arch| build os['name'], arch }
           else
@@ -46,21 +47,21 @@ class Go4Rake < ::Rake::TaskLib
 
       desc 'ZIP this project binaries'
       task :zip => [:build, :test] do
-        unless config['out']
-          config['out'] = '.' # Default to the current directory, if 'out' is not specified.
+        unless @config['out']
+          @config['out'] = '.' # Default to the current directory, if 'out' is not specified.
         end
 
-        config['platforms'].each { |os|
+        @config['platforms'].each { |os|
           if os['arch'].respond_to?('each')
-            os['arch'].each { |arch| zip os['name'], arch, config['out'], os['zip'] ? \
+            os['arch'].each { |arch| zip os['name'], arch, @config['out'], os['zip'] ? \
               "#{os['zip']}_#{arch}" : "#{os['name']}_#{arch}" }
           else
-            zip os['name'], os['arch'], config['out'], os['zip'] || "#{os['name']}_#{os['arch']}"
+            zip os['name'], os['arch'], @config['out'], os['zip'] || "#{os['name']}_#{os['arch']}"
           end
         }
       end
-    rescue
-      puts "Warning: unable to load #{yml}. Disabling `build` and `zip` tasks."
+    rescue => e
+      $stderr.puts "WARNING: Skipping `build` and `zip` tasks: #{e}"
     end
 
     desc 'Run `go test` for the native platform'
@@ -68,31 +69,34 @@ class Go4Rake < ::Rake::TaskLib
       setenv nil, nil
       unless system('go test'); die 'Tests' end
     end
+  end
 
-    def setenv os, arch
-      ENV['GOARCH'] = arch ? arch.to_s : nil
-      ENV['GOOS']   = os
+  # Sets GOARCH and GOOS.
+  def setenv os, arch
+    ENV['GOARCH'] = arch ? arch.to_s : nil
+    ENV['GOOS']   = os
+  end
+
+  # Exits with an error.
+  def die task
+    puts "#{task} failed. Exiting"
+    exit 1 # Rake returns 1 if something fails.
+  end
+
+  # Executes `go install` for the specified os/arch.
+  def build os, arch
+    setenv os, arch
+    puts "Building #{os}_#{arch}"
+    unless system('go install'); die 'Build' end
+  end
+
+  # Zips the compiled files.
+  def zip os, arch, dir, file
+    setenv os, arch
+
+    if system("zip -qj #{dir}/#{file}.zip #{`go list -f '{{.Target}}'`}")
+      puts "Wrote #{dir}/#{file}.zip"
     end
-
-    def die task
-      puts "#{task} failed. Exiting"
-      exit 1 # Rake returns 1 if something fails.
-    end
-
-    def build os, arch
-      setenv os, arch
-      puts "Building #{os}_#{arch}"
-      unless system('go install'); die 'Build' end
-    end
-
-    def zip os, arch, dir, file
-      setenv os, arch
-
-      if system("zip -qj #{dir}/#{file}.zip #{`go list -f '{{.Target}}'`}")
-        puts "Wrote #{dir}/#{file}.zip"
-      end
-    end
-
   end
 end
 
