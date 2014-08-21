@@ -79,8 +79,7 @@ class Go4Rake < ::Rake::TaskLib
 
   # Exits with an error.
   def die task
-    puts "#{task} failed. Exiting"
-    exit 1 # Rake returns 1 if something fails.
+    abort "#{task} failed. Exiting" # Rake returns 1 in something fails.
   end
 
   # Executes `go install` for the specified os/arch.
@@ -93,7 +92,6 @@ class Go4Rake < ::Rake::TaskLib
   # Zips the compiled files.
   def zip os, arch, dir, file
     setenv os, arch
-
     if system("zip -qj #{dir}/#{file}.zip #{`go list -f '{{.Target}}'`}")
       puts "Wrote #{dir}/#{file}.zip"
     end
