@@ -27,13 +27,12 @@ require 'yaml'
 # Offline copies of README and example config are also included in this gem.
 class Go4Rake < ::Rake::TaskLib
   # Initialize Rake tasks for cross-compiling Go programs.
-  def initialize(*args)
-    @yml = 'go4rake.yml'
+  def initialize(yml = 'go4rake.yml')
     # `build` and `zip` depend on config, `test` doesn't.
     begin
-      @config = YAML.load_file @yml
+      @config = YAML.load_file yml
 
-      desc "Build this project for the platforms in #{@yml}"
+      desc "Build this project for the platforms in #{yml}"
       task :build do
         @config['platforms'].each { |os|
           if os['arch'].respond_to?('each')
@@ -46,9 +45,7 @@ class Go4Rake < ::Rake::TaskLib
 
       desc 'ZIP this project binaries'
       task :zip => [:build, :test] do
-        unless @config['out']
-          @config['out'] = '.' # Default to the current directory, if 'out' is not specified.
-        end
+        @config['out'] ||= '.' # Default to the current directory, if 'out' is not specified.
 
         @config['platforms'].each { |os|
           if os['arch'].respond_to?('each')
@@ -66,7 +63,7 @@ class Go4Rake < ::Rake::TaskLib
     desc 'Run `go test` for the native platform'
     task :test do
       setenv nil, nil
-      unless system('go test'); die 'Tests' end
+      system 'go test' or die 'Tests'
     end
   end
 
@@ -85,13 +82,13 @@ class Go4Rake < ::Rake::TaskLib
   def build os, arch
     setenv os, arch
     puts "Building #{os}_#{arch}"
-    unless system('go install'); die 'Build' end
+    system 'go install' or die 'Build'
   end
 
   # Zips the compiled files.
   def zip os, arch, dir, file
     setenv os, arch
-    if system("zip -qj #{dir}/#{file}.zip #{`go list -f '{{.Target}}'`}")
+    if system "zip -qj #{dir}/#{file}.zip #{`go list -f '{{.Target}}'`}"
       puts "Wrote #{dir}/#{file}.zip"
     end
   end
