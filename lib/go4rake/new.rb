@@ -30,15 +30,17 @@ class Go4Rake < ::Rake::TaskLib
   def initialize(yml = 'go4rake.yml')
     # `build` and `zip` depend on config, `test` doesn't.
     begin
-      @config = YAML.load_file yml
+      @config = YAML.load_file(yml)
 
       desc "Build this project for the platforms in #{yml}"
       task :build do
         @config['platforms'].each { |os|
           if os['arch'].respond_to?('each')
-            os['arch'].each { |arch| build os['name'], arch }
+            os['arch'].each { |arch|
+              build(os['name'], arch)
+            }
           else
-            build os['name'], os['arch']
+            build(os['name'], os['arch'])
           end
         }
       end
@@ -49,47 +51,46 @@ class Go4Rake < ::Rake::TaskLib
 
         @config['platforms'].each { |os|
           if os['arch'].respond_to?('each')
-            os['arch'].each { |arch| zip os['name'], arch, @config['out'], os['zip'] ? \
-              "#{os['zip']}_#{arch}" : "#{os['name']}_#{arch}" }
+            os['arch'].each { |arch|
+              zip(os['name'], arch, @config['out'], os['zip'] ? "#{os['zip']}_#{arch}" : "#{os['name']}_#{arch}")
+            }
           else
-            zip os['name'], os['arch'], @config['out'], os['zip'] || "#{os['name']}_#{os['arch']}"
+            zip(os['name'], os['arch'], @config['out'], os['zip'] || "#{os['name']}_#{os['arch']}")
           end
         }
       end
     rescue => e
-      $stderr.puts "WARNING: Skipping `build` and `zip` tasks: #{e}"
+      $stderr.puts("WARNING: Skipping `build` and `zip` tasks: #{e}")
     end
 
     desc 'Run `go test` for the native platform'
     task :test do
-      setenv nil, nil
-      system 'go test' or die 'Tests'
+      setenv(nil, nil)
+      system('go test') || die('Tests')
     end
   end
 
   # Sets GOARCH and GOOS.
-  def setenv os, arch
+  def setenv(os, arch)
     ENV['GOARCH'] = arch ? arch.to_s : nil
     ENV['GOOS']   = os
   end
 
   # Exits with an error.
-  def die task
-    abort "#{task} failed. Exiting" # Rake returns 1 in something fails.
+  def die(task)
+    abort("#{task} failed. Exiting") # Rake returns 1 in something fails.
   end
 
   # Executes `go install` for the specified os/arch.
-  def build os, arch
-    setenv os, arch
-    puts "Building #{os}_#{arch}"
-    system 'go install' or die 'Build'
+  def build(os, arch)
+    setenv(os, arch)
+    puts("Building #{os}_#{arch}")
+    system('go install') || die('Build')
   end
 
   # Zips the compiled files.
-  def zip os, arch, dir, file
-    setenv os, arch
-    if system "zip -qj #{dir}/#{file}.zip #{`go list -f '{{.Target}}'`}"
-      puts "Wrote #{dir}/#{file}.zip"
-    end
+  def zip(os, arch, dir, file)
+    setenv(os, arch)
+    system("zip -qj #{dir}/#{file}.zip #{`go list -f '{{.Target}}'`}") && puts("Wrote #{dir}/#{file}.zip")
   end
 end
