@@ -13,9 +13,9 @@ This gem provides the following tasks:
 The reason only the native runtime is supported in `test` is that `go test` for a different operating system does not work. That's a pity.
 
 Note: when used on Windows, ZIP files for Mac/Linux/Unix will contain
-incorrect permissions (after extracting them one needs to do `chmod +x
-executable_file`). Probably, that means, we need a different archiver
-on Windows (7-zip? Don't know).
+incorrect permissions (after extracting them one needs to do `chmod
+0755` on the extracted file). Probably, that means, we need a different
+archiver on Windows (7-zip? Don't know).
 
 ### To install and use go4rake you need:
 
