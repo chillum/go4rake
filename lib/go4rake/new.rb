@@ -1,4 +1,4 @@
-# Copyright 2014 Vasily Korytov
+# Copyright 2014-2015 Vasily Korytov
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,6 +14,8 @@
 
 require 'rake/tasklib'
 require 'yaml'
+require 'zip'
+require 'zip/filesystem'
 
 # Rake tasks to cross-compile Go project and ZIP the binaries:
 # `rake build`, `rake test` and `rake zip`.
@@ -99,6 +101,27 @@ class Go4Rake < ::Rake::TaskLib
   # Zip the compiled files.
   def zip(os, arch, dir, file)
     setenv(os, arch)
-    system("zip -qj #{dir}/#{file}.zip #{`go list -f '{{.Target}}'`}") && puts("Wrote #{dir}/#{file}.zip")
+    bin = `go list -f '{{.Target}}'`.chomp
+    return unless bin
+    zip_file = File.expand_path(dir) + '/' + file + '.zip'
+    name     = File.basename(bin)
+
+    Zip::File.open(zip_file, Zip::File::CREATE) do |zip|
+      # `NOTICE` file is required by Apache license.
+      begin
+        zip.add('NOTICE', 'NOTICE')
+      rescue Zip::ZipEntryExistsError
+        zip.replace('NOTICE', 'NOTICE')
+      end
+
+      # The executable file.
+      begin
+        zip.add(name, bin)
+      rescue Zip::ZipEntryExistsError
+        zip.replace(name, bin)
+      end
+      zip.file.chmod(0755, name)
+    end
+    puts("Wrote #{zip_file}")
   end
 end

@@ -12,19 +12,12 @@ This gem provides the following tasks:
 
 The reason only the native runtime is supported in `test` is that `go test` for a different operating system does not work. That's a pity.
 
-Note: when used on Windows, ZIP files for Mac/Linux/Unix will contain
-incorrect permissions (after extracting them one needs to do `chmod
-0755` on the extracted file). Probably, that means, we need a different
-archiver on Windows (7-zip? Don't know).
-
 ### To install and use go4rake you need:
 
 * Go cross-compilation toolchain for all the platforms, you need.  
   (Mac and [Homebrew](http://brew.sh/) users can run `brew install go --cross-compile-common`
   or `brew install go --cross-compile-all` for this, on other Unix and Windows you should
   [build Go from source](http://dave.cheney.net/2013/07/09/an-introduction-to-cross-compilation-with-go-1-1).)
-* [Info-ZIP](http://www.info-zip.org/Zip.html) `zip` binary in path
-  (ships with MacOS X and most Unix systems).
 * Install [Ruby](https://www.ruby-lang.org). `gem` utility comes with it.
 * Install go4rake: `gem install go4rake`.
 * Enable go4rake in `Rakefile`: include `require 'go4rake'` in it (create the file, if missing).  
@@ -54,6 +47,9 @@ For each platform:
 
 Please note that:
 
+* ZIP files include a `NOTICE` file, if it's found in the project directory
 * If `out` is specified, ZIP files will appear in the specified
   directory; if not, they will be in current directory
+* ZIP file permissions default to `0600`, this is due to
+  [bug in rubyzip](https://github.com/rubyzip/rubyzip/issues/204)
 * `arch` is appended to the file name if `arch` is a list
