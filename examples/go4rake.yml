@@ -3,6 +3,10 @@
 
 out: ~/Downloads
 
+files:
+  - README.md
+  - NOTICE
+
 platforms:
   - name: windows
     arch: 386

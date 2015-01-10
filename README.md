@@ -45,11 +45,17 @@ For each platform:
 * `arch` is arch
 * `zip` is ZIP file name (optional)
 
+These files will be also included into the ZIP files:
+
+* `README.md`
+* `NOTICE`
+
 Please note that:
 
-* ZIP files include a `NOTICE` file, if it's found in the project directory
 * If `out` is specified, ZIP files will appear in the specified
   directory; if not, they will be in current directory
+* if `files` it not specified, a `NOTICE` file will be included in ZIP
+  files, if it's found in the project directory
 * ZIP file permissions default to `0600`, this is due to
   [bug in rubyzip](https://github.com/rubyzip/rubyzip/issues/204)
 * `arch` is appended to the file name if `arch` is a list

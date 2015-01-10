@@ -48,10 +48,12 @@ class Go4Rake < ::Rake::TaskLib
       cfg['platforms'].each { |os|
         if os['arch'].respond_to?('each')
           os['arch'].each { |arch|
-            zip(os['name'], arch, cfg['out'], os['zip'] ? "#{os['zip']}_#{arch}" : "#{os['name']}_#{arch}")
+            zip(os['name'], arch, cfg['out'], cfg['files'],
+                os['zip'] ? "#{os['zip']}_#{arch}" : "#{os['name']}_#{arch}")
           }
         else
-          zip(os['name'], os['arch'], cfg['out'], os['zip'] || "#{os['name']}_#{os['arch']}")
+          zip(os['name'], os['arch'], cfg['out'], cfg['files'],
+              os['zip'] || "#{os['name']}_#{os['arch']}")
         end
       }
     end
@@ -85,20 +87,27 @@ class Go4Rake < ::Rake::TaskLib
   end
 
   # Zip the compiled files.
-  def zip(os, arch, dir, file)
+  def zip(os, arch, dir, files, file)
     setenv(os, arch)
     bin = `go list -f '{{.Target}}'`.chomp
     return unless bin
     zip_file = File.expand_path(dir) + '/' + file + '.zip'
     name     = File.basename(bin)
+    unless files
+      files = []
+      # `NOTICE` file is required by Apache license.
+      files.push('NOTICE') if File.exists?('NOTICE')
+    end
 
     Zip::File.open(zip_file, Zip::File::CREATE) do |zip|
-      # `NOTICE` file is required by Apache license.
-      begin
-        zip.add('NOTICE', 'NOTICE') if File.exists?('NOTICE')
-      rescue Zip::ZipEntryExistsError
-        zip.replace('NOTICE', 'NOTICE')
-      end
+      [*files].each { |i|
+        t = File.basename(i)
+        begin
+          zip.add(t, i)
+        rescue Zip::ZipEntryExistsError
+          zip.replace(t, i)
+        end
+      }
 
       # The executable file.
       begin
