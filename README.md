@@ -54,7 +54,7 @@ Please note that:
 
 * If `out` is specified, ZIP files will appear in the specified
   directory; if not, they will be in current directory
-* if `files` it not specified, a `NOTICE` file will be included in ZIP
+* if `files` is not specified, a `NOTICE` file will be included in ZIP
   files, if it's found in the project directory
 * ZIP file permissions default to `0600`, this is due to
   [bug in rubyzip](https://github.com/rubyzip/rubyzip/issues/204)
