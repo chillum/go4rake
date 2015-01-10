@@ -28,7 +28,7 @@ The reason only the native runtime is supported in `test` is that `go test` for 
 ### Configuration
 
 `zip` and `build` tasks expect a YAML config, `go4rake.yml`. Say, we
-have [this config](https://github.com/chillum/httpstress-go/blob/master/go4rake.yml).
+have [this config](https://github.com/chillum/go4rake/blob/master/examples/go4rake.yml).
 
 This way, you run `rake zip` and you get the following ZIP files
 containing the static binary builds in your `~/Downloads` directory:
