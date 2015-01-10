@@ -4,7 +4,7 @@ require 'zip'
 require 'zip/filesystem'
 
 # Rake tasks to cross-compile Go project and ZIP the binaries:
-# `rake build`, `rake test`, `rake zip` and `rake clean`.
+# `rake build`, `rake zip`, `rake test` and `rake clean`.
 #
 # Usage: `require 'go4rake'` in `Rakefile`. Settings are specified in a YAML file: `go4rake.yml`.
 #
