@@ -95,7 +95,7 @@ class Go4Rake < ::Rake::TaskLib
     Zip::File.open(zip_file, Zip::File::CREATE) do |zip|
       # `NOTICE` file is required by Apache license.
       begin
-        zip.add('NOTICE', 'NOTICE')
+        zip.add('NOTICE', 'NOTICE') if File.exists?('NOTICE')
       rescue Zip::ZipEntryExistsError
         zip.replace('NOTICE', 'NOTICE')
       end
