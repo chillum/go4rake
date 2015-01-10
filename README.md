@@ -5,6 +5,7 @@ This gem provides the following tasks:
 * `rake build` for cross-compiling for the specified architectures
 * `rake zip` command for making ZIP files that contain binary builds
 * `rake test` for running tests for the native architecture
+* `rake clean` for deleting the created ZIP files
 
 `zip` depends on `build` and `test` (in that order).
 
@@ -27,7 +28,7 @@ The reason only the native runtime is supported in `test` is that `go test` for 
 
 ### Configuration
 
-`zip` and `build` tasks expect a YAML config, `go4rake.yml`. Say, we
+`zip`, `build` and `clean` tasks expect a YAML config, `go4rake.yml`. Say, we
 have [this config](https://github.com/chillum/go4rake/blob/master/examples/go4rake.yml).
 
 This way, you run `rake zip` and you get the following ZIP files

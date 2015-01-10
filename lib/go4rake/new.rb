@@ -4,7 +4,7 @@ require 'zip'
 require 'zip/filesystem'
 
 # Rake tasks to cross-compile Go project and ZIP the binaries:
-# `rake build`, `rake test` and `rake zip`.
+# `rake build`, `rake test`, `rake zip` and `rake clean`.
 #
 # Usage: `require 'go4rake'` in `Rakefile`. Settings are specified in a YAML file: `go4rake.yml`.
 #
@@ -57,6 +57,22 @@ class Go4Rake < ::Rake::TaskLib
         end
       }
     end
+
+    desc 'Delete ZIP files'
+    task :clean do
+      cfg['out'] ||= '.' # Default to the current directory, if 'out' is not specified.
+
+      cfg['platforms'].each { |os|
+        if os['arch'].respond_to?('each')
+          os['arch'].each { |arch|
+            clean(cfg['out'], os['zip'] ? "#{os['zip']}_#{arch}" : "#{os['name']}_#{arch}")
+          }
+        else
+          clean(cfg['out'], os['zip'] || "#{os['name']}_#{os['arch']}")
+        end
+      }
+    end
+
   end
 
   # Initialize `test` task.
@@ -118,5 +134,13 @@ class Go4Rake < ::Rake::TaskLib
       zip.file.chmod(0755, name)
     end
     puts("Wrote #{zip_file}")
+  end
+
+  def clean(dir, file)
+    zip_file = File.expand_path(dir) + '/' + file + '.zip'
+    if File.exists?(zip_file)
+      puts("Removing #{zip_file}")
+      File.delete(zip_file)
+    end
   end
 end
