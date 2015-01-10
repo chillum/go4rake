@@ -22,11 +22,11 @@ class Go4Rake < ::Rake::TaskLib
     rescue => e
       $stderr.puts("WARNING: Skipping `build` and `zip` tasks: #{e}")
     end
-    # `build` and `zip` depend on config, `test` doesn't.
+    # `build`, `zip` and `clean` depend on config, `test` doesn't.
     task_test
   end
 
-  # Initialize `build` and `zip` tasks.
+  # Initialize `build`, `zip` and `clean` tasks.
   def tasks(cfg, yml)
     desc "Build this project for the platforms in #{yml}"
     task :build do
@@ -136,6 +136,7 @@ class Go4Rake < ::Rake::TaskLib
     puts("Wrote #{zip_file}")
   end
 
+  # Remove the ZIP file (specify path and basename).
   def clean(dir, file)
     zip_file = File.expand_path(dir) + '/' + file + '.zip'
     if File.exists?(zip_file)
