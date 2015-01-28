@@ -16,8 +16,8 @@ The reason only the native runtime is supported in `test` is that `go test` for 
 ### To install and use go4rake you need:
 
 * Go cross-compilation toolchain for all the platforms, you need.  
-  (Mac and [Homebrew](http://brew.sh/) users can run `brew install go --cross-compile-common`
-  or `brew install go --cross-compile-all` for this, on other Unix and Windows you should
+  (Mac and [Homebrew](http://brew.sh/) users can run `brew install go --with-cc-common`
+  or `brew install go --with-cc-all` for this, on other Unix and Windows you should
   [build Go from source](http://dave.cheney.net/2013/07/09/an-introduction-to-cross-compilation-with-go-1-1).)
 * Install [Ruby](https://www.ruby-lang.org). `gem` utility comes with it.
 * Install go4rake: `gem install go4rake`.
