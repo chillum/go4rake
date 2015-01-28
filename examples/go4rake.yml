@@ -10,14 +10,14 @@ files:
 platforms:
   - name: windows
     arch: 386
-    zip:  win32
+    zip:  win32  # win32.zip
   - name: windows
     arch: amd64
-    zip:  win64
+    zip:  win64  # win64.zip
   - name: darwin
     arch: amd64
-    zip:  mac
+    zip:  mac    # mac.zip
   - name: linux
     arch:
-      - 386
-      - amd64
+      - 386      # linux_386.zip
+      - amd64    # linux_amd64.zip
