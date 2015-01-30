@@ -19,7 +19,7 @@ The reason only the native runtime is supported in `test` is that `go test` for 
   (Mac and [Homebrew](http://brew.sh/) users can run `brew install go --with-cc-common`
   or `brew install go --with-cc-all` for this, on other Unix and Windows you should
   [build Go from source](http://dave.cheney.net/2013/07/09/an-introduction-to-cross-compilation-with-go-1-1).)
-* Install [Ruby](https://www.ruby-lang.org). `gem` utility comes with it.
+* Install [Ruby](https://www.ruby-lang.org/en/documentation/installation/). `gem` utility comes with it.
 * Install go4rake: `gem install go4rake`.
 * Enable go4rake in `Rakefile`: include `require 'go4rake'` in it (create the file, if missing).  
   (Unix users can do: `echo "require 'go4rake'" >> Rakefile`.)
