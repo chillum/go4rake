@@ -72,7 +72,6 @@ class Go4Rake < ::Rake::TaskLib
         end
       }
     end
-
   end
 
   # Initialize `test` task.
@@ -112,7 +111,7 @@ class Go4Rake < ::Rake::TaskLib
     unless files
       files = []
       # `NOTICE` file is required by Apache license.
-      files.push('NOTICE') if File.exists?('NOTICE')
+      files.push('NOTICE') if File.exist?('NOTICE')
     end
 
     Zip::File.open(zip_file, Zip::File::CREATE) do |zip|
@@ -139,9 +138,8 @@ class Go4Rake < ::Rake::TaskLib
   # Remove the ZIP file (specify path and basename).
   def clean(dir, file)
     zip_file = File.expand_path(dir) + '/' + file + '.zip'
-    if File.exists?(zip_file)
-      puts("Removing #{zip_file}")
-      File.delete(zip_file)
-    end
+    return unless File.exist?(zip_file)
+    puts("Removing #{zip_file}")
+    File.delete(zip_file)
   end
 end
