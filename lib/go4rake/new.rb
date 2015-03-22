@@ -42,7 +42,7 @@ class Go4Rake < ::Rake::TaskLib
     end
 
     desc 'ZIP this project binaries'
-    task :zip => [:build, :test] do
+    task zip: [:build, :test] do
       cfg['out'] ||= '.' # Default to the current directory, if 'out' is not specified.
 
       cfg['platforms'].each { |os|

@@ -2,5 +2,3 @@ Metrics/LineLength:
   Max: 120
 Style/Blocks:
   Enabled: false
-Style/HashSyntax:
-  Enabled: false
