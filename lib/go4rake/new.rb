@@ -8,7 +8,7 @@ require 'zip/filesystem'
 #
 # Usage: `require 'go4rake'` in `Rakefile`. Settings are specified in a YAML file: `go4rake.yml`.
 #
-# Example config: https://github.com/chillum/httpstress-go/blob/master/go4rake.yml
+# Example config: https://github.com/chillum/go4rake/blob/master/examples/go4rake.yml
 #
 # Docs: https://github.com/chillum/go4rake/blob/master/README.md
 #
