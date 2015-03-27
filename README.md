@@ -1,4 +1,4 @@
-﻿## go4rake: Rake tasks for cross-compiling Go programs [![Gem Version](https://badge.fury.io/rb/go4rake.svg)](http://badge.fury.io/rb/go4rake)
+## go4rake: Rake tasks for cross-compiling Go programs [![Gem Version](https://badge.fury.io/rb/go4rake.svg)](http://badge.fury.io/rb/go4rake)
 
 This gem provides the following tasks:
 
