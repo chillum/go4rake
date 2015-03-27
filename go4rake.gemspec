@@ -10,5 +10,5 @@ Gem::Specification.new do |s|
   s.files        = %w(NOTICE README.md examples/go4rake.yml lib/go4rake.rb lib/go4rake/new.rb)
   s.add_dependency 'rake',    '~> 10.0'
   s.add_dependency 'rubyzip', '~> 1.1'
-  s.required_ruby_version   = '>= 1.9'
+  s.required_ruby_version   = '>= 1.9.2'
 end
