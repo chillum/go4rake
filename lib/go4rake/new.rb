@@ -114,22 +114,15 @@ class Go4Rake < ::Rake::TaskLib
       files.push('NOTICE') if File.exist?('NOTICE')
     end
 
+    File.delete(zip_file)
     Zip::File.open(zip_file, Zip::File::CREATE) do |zip|
       [*files].each { |i|
         t = File.basename(i)
-        begin
-          zip.add(t, i)
-        rescue Zip::ZipEntryExistsError
-          zip.replace(t, i)
-        end
+        zip.add(t, i)
       }
 
       # The executable file.
-      begin
-        zip.add(name, bin)
-      rescue Zip::ZipEntryExistsError
-        zip.replace(name, bin)
-      end
+      zip.add(name, bin)
       zip.file.chmod(0755, name)
     end
     puts("Wrote #{zip_file}")
