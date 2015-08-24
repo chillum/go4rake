@@ -57,8 +57,6 @@ Please note that:
   directory; if not, they will be in current directory
 * if `files` is not specified, a `NOTICE` file will be included in ZIP
   files, if it's found in the project directory
-* if you remove `NOTICE` or change `files` not to include some file,
-  you have to re-generate ZIP files: `rake clean zip`
 * ZIP file permissions default to `0600`, this is due to
   [bug in rubyzip](https://github.com/rubyzip/rubyzip/issues/204)
 * `arch` is appended to the file name if `arch` is a list
