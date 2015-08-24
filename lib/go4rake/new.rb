@@ -114,7 +114,7 @@ class Go4Rake < ::Rake::TaskLib
       files.push('NOTICE') if File.exist?('NOTICE')
     end
 
-    File.delete(zip_file)
+    File.delete(zip_file) if File.exist?(zip_file)
     Zip::File.open(zip_file, Zip::File::CREATE) do |zip|
       [*files].each { |i|
         t = File.basename(i)
