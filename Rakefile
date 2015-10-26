@@ -3,7 +3,15 @@ require_relative 'lib/go4rake/version.rb'
 task :default => :install
 
 task :install => :build do
-  sh 'sudo gem install go4rake-#{Go4Rake:Version}'
+  sh "sudo gem install autoup-#{Go4Rake::Version}.gem"
+end
+
+task :uninstall do
+  sh 'sudo gem uninstall go4rake'
+end
+
+task :push => :build do
+  sh "gem push autoup-#{Go4Rake::Version}.gem"
 end
 
 task :build do
