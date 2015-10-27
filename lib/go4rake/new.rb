@@ -13,6 +13,7 @@ require 'zip/filesystem'
 # Docs: https://github.com/chillum/go4rake/blob/master/README.md
 #
 # Offline copies of README and example config are also included in this gem.
+#
 class Go4Rake < ::Rake::TaskLib
   # Load configuration file and initialize Rake tasks for cross-compiling Go programs.
   def initialize(yml = 'go4rake.yml')
