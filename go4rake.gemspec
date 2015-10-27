@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.homepage     = 'https://github.com/chillum/go4rake'
   s.license      = 'Apache-2.0'
   s.author       = 'Vasily Korytov'
-  s.email        = 'vasily.korytov@yahoo.com'
+  s.email        = 'vasily.korytov@yandex.com'
   s.files        = %w(NOTICE README.md examples/go4rake.yml lib/go4rake.rb lib/go4rake/new.rb)
   s.add_dependency 'rake',    '~> 10.0'
   s.add_dependency 'rubyzip', '~> 1.1'
