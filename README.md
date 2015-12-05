@@ -15,8 +15,7 @@ The reason only the native runtime is supported in `test` is that `go test` for 
 
 ### Installation and usage
 
-* Install [Go](https://golang.org/dl/).
-* Install [Ruby](https://www.ruby-lang.org/en/documentation/installation/). `gem` utility comes with it.
+* Install [Go](https://golang.org/dl/) and [Ruby](https://www.ruby-lang.org/en/documentation/installation/).
 * Install go4rake: `gem install go4rake`.
 * Enable go4rake in `Rakefile`: include `require 'go4rake'` in it (create the file, if missing).  
   (Unix users can do: `echo "require 'go4rake'" >> Rakefile`.)
