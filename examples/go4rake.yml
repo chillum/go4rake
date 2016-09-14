@@ -1,8 +1,8 @@
 # go4rake config
 # Public domain
 
-# ZIP file directory. If absent, the current directory is used.
-out: ~/Downloads
+# ZIP file directory. If absent, ~/Downloads is used:
+#out: .
 
 # Additional files to include in ZIP file. Optional.
 files:
