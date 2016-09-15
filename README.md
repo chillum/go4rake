@@ -50,7 +50,8 @@ These files will be also included into the ZIP files:
 Please note that:
 
 * If `out` is specified, ZIP files will appear in the specified
-  directory; if not, they will be in `~/Downloads`.
+  directory; if not, they will be in `~/Downloads`.  
+  Prior to 1.5.2 the default value was `.`
 * Also please note that current files with the same names as your targets are overwritten.
 * If `files` are not specified, a `NOTICE` file will be included in ZIP
   files, if it's found in the project directory
