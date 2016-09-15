@@ -19,6 +19,7 @@ class Go4Rake < ::Rake::TaskLib
   def initialize(yml = 'go4rake.yml')
     begin
       @config = YAML.load_file(yml)
+      @config['out'] ||= '~/Downloads' # Default to ~/Downloads, if 'out' is not specified.
       tasks(@config, yml)
     rescue => e
       $stderr.puts("WARNING: Skipping `build` and `zip` tasks: #{e}")
@@ -44,7 +45,6 @@ class Go4Rake < ::Rake::TaskLib
 
     desc 'ZIP this project binaries'
     task zip: [:build, :test] do
-      cfg['out'] ||= '.' # Default to the current directory, if 'out' is not specified.
 
       cfg['platforms'].each { |os|
         if os['arch'].respond_to?('each')
@@ -61,8 +61,6 @@ class Go4Rake < ::Rake::TaskLib
 
     desc 'Delete ZIP files'
     task :clean do
-      cfg['out'] ||= '.' # Default to the current directory, if 'out' is not specified.
-
       cfg['platforms'].each { |os|
         if os['arch'].respond_to?('each')
           os['arch'].each { |arch|
