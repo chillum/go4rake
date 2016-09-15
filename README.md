@@ -51,7 +51,7 @@ Please note that:
 
 * If `out` is specified, ZIP files will appear in the specified
   directory; if not, they will be in `~/Downloads`.
-* Also please note that current files with alike names are overwritten.
+* Also please note that current files with the same names as your targets are overwritten.
 * If `files` are not specified, a `NOTICE` file will be included in ZIP
   files, if it's found in the project directory
 * `arch` is appended to the file name if `arch` is a list
