@@ -45,7 +45,6 @@ class Go4Rake < ::Rake::TaskLib
 
     desc 'ZIP this project binaries'
     task zip: [:build, :test] do
-
       cfg['platforms'].each { |os|
         if os['arch'].respond_to?('each')
           os['arch'].each { |arch|
