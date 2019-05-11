@@ -102,7 +102,7 @@ class Go4Rake < ::Rake::TaskLib
   # Zip the compiled files.
   def zip(os, arch, dir, files, file)
     setenv(os, arch)
-    bin = `go list -f '{{.Target}}'`.chomp
+    bin = `go list -f '{{.Target}}'`.chomp.delete_prefix("'").delete_suffix("'")
     return unless bin
     zip_file = File.expand_path(dir) + '/' + file + '.zip'
     name     = File.basename(bin)
