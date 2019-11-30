@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rake/tasklib'
 require 'yaml'
 require 'zip'
@@ -21,8 +23,8 @@ class Go4Rake < ::Rake::TaskLib
       @config = YAML.load_file(yml)
       @config['out'] ||= '~/Downloads' # Default to ~/Downloads, if 'out' is not specified.
       tasks(@config, yml)
-    rescue => e
-      $stderr.puts("WARNING: Skipping `build` and `zip` tasks: #{e}")
+    rescue(Errno::ENOENT) => e
+      warn "WARNING: Skipping `build` and `zip` tasks: #{e}"
     end
     # `build`, `zip` and `clean` depend on config, `test` doesn't.
     task_test
@@ -44,7 +46,7 @@ class Go4Rake < ::Rake::TaskLib
     end
 
     desc 'ZIP this project binaries'
-    task zip: [:build, :test] do
+    task zip: %i[build test]  do
       cfg['platforms'].each { |os|
         if os['arch'].respond_to?('each')
           os['arch'].each { |arch|
@@ -104,6 +106,7 @@ class Go4Rake < ::Rake::TaskLib
     setenv(os, arch)
     bin = `go list -f '{{.Target}}'`.chomp.delete_prefix("'").delete_suffix("'")
     return unless bin
+
     zip_file = File.expand_path(dir) + '/' + file + '.zip'
     name     = File.basename(bin)
     unless files
@@ -121,7 +124,7 @@ class Go4Rake < ::Rake::TaskLib
 
       # The executable file.
       zip.add(name, bin)
-      zip.file.chmod(0755, name)
+      zip.file.chmod(0o755, name)
     end
     puts("Wrote #{zip_file}")
   end
@@ -130,6 +133,7 @@ class Go4Rake < ::Rake::TaskLib
   def clean(dir, file)
     zip_file = File.expand_path(dir) + '/' + file + '.zip'
     return unless File.exist?(zip_file)
+
     puts("Removing #{zip_file}")
     File.delete(zip_file)
   end

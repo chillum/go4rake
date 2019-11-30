@@ -1,0 +1,8 @@
+Naming/MethodParameterName:
+  Enabled: false
+Style/BlockDelimiters:
+  Enabled: false
+Metrics/LineLength:
+  Max: 100
+AllCops:
+  TargetRubyVersion: 2.5
