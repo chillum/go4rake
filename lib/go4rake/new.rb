@@ -2,7 +2,6 @@
 
 require 'rake/tasklib'
 require 'yaml'
-require 'zip'
 require 'zip/filesystem'
 
 # Rake tasks to cross-compile Go project and ZIP the binaries:
@@ -20,9 +19,11 @@ class Go4Rake < ::Rake::TaskLib
   # Load configuration file and initialize Rake tasks for cross-compiling Go programs.
   def initialize(yml = 'go4rake.yml')
     begin
-      @config = YAML.load_file(yml)
+      @yaml_file = yml
+      @config = YAML.load_file(@yaml_file)
       @config['out'] ||= '~/Downloads' # Default to ~/Downloads, if 'out' is not specified.
-      tasks(@config, yml)
+
+      init_tasks
     rescue(Errno::ENOENT) => e
       warn "WARNING: Skipping `build` and `zip` tasks: #{e}"
     end
@@ -30,11 +31,19 @@ class Go4Rake < ::Rake::TaskLib
     task_test
   end
 
+  private
+
+  def init_tasks
+    task_build
+    task_zip
+    task_clean
+  end
+
   # Initialize `build`, `zip` and `clean` tasks.
-  def tasks(cfg, yml)
-    desc "Build this project for the platforms in #{yml}"
+  def task_build
+    desc "Build this project for the platforms in #{@yaml_file}"
     task :build do
-      cfg['platforms'].each { |os|
+      @config['platforms'].each { |os|
         if os['arch'].respond_to?('each')
           os['arch'].each { |arch|
             build(os['name'], arch)
@@ -44,31 +53,35 @@ class Go4Rake < ::Rake::TaskLib
         end
       }
     end
+  end
 
+  def task_zip
     desc 'ZIP this project binaries'
-    task zip: %i[build test]  do
-      cfg['platforms'].each { |os|
+    task zip: %i[build test] do
+      @config['platforms'].each { |os|
         if os['arch'].respond_to?('each')
           os['arch'].each { |arch|
-            zip(os['name'], arch, cfg['out'], cfg['files'],
+            zip(os['name'], arch, @config['out'], @config['files'],
                 os['zip'] ? "#{os['zip']}_#{arch}" : "#{os['name']}_#{arch}")
           }
         else
-          zip(os['name'], os['arch'], cfg['out'], cfg['files'],
+          zip(os['name'], os['arch'], @config['out'], @config['files'],
               os['zip'] || "#{os['name']}_#{os['arch']}")
         end
       }
     end
+  end
 
+  def task_clean
     desc 'Delete ZIP files'
     task :clean do
-      cfg['platforms'].each { |os|
+      @config['platforms'].each { |os|
         if os['arch'].respond_to?('each')
           os['arch'].each { |arch|
-            clean(cfg['out'], os['zip'] ? "#{os['zip']}_#{arch}" : "#{os['name']}_#{arch}")
+            clean(@config['out'], os['zip'] ? "#{os['zip']}_#{arch}" : "#{os['name']}_#{arch}")
           }
         else
-          clean(cfg['out'], os['zip'] || "#{os['name']}_#{os['arch']}")
+          clean(@config['out'], os['zip'] || "#{os['name']}_#{os['arch']}")
         end
       }
     end
