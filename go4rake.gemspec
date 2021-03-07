@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative 'version.rb'
+require_relative 'version'
 
 Gem::Specification.new do |s|
   s.name         = 'go4rake'

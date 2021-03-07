@@ -18,6 +18,7 @@ require 'zip/filesystem'
 class Go4Rake < ::Rake::TaskLib
   # Load configuration file and initialize Rake tasks for cross-compiling Go programs.
   def initialize(yml = 'go4rake.yml')
+    super()
     begin
       @yaml_file = yml
       @config = YAML.load_file(@yaml_file)
@@ -120,7 +121,7 @@ class Go4Rake < ::Rake::TaskLib
     bin = `go list -f '{{.Target}}'`.chomp.delete_prefix("'").delete_suffix("'")
     return unless bin
 
-    zip_file = File.expand_path(dir) + '/' + file + '.zip'
+    zip_file = "#{File.expand_path(dir)}/#{file}.zip"
     name     = File.basename(bin)
     unless files
       files = []
@@ -144,7 +145,7 @@ class Go4Rake < ::Rake::TaskLib
 
   # Remove the ZIP file (specify path and basename).
   def clean(dir, file)
-    zip_file = File.expand_path(dir) + '/' + file + '.zip'
+    zip_file = "#{File.expand_path(dir)}/#{file}.zip"
     return unless File.exist?(zip_file)
 
     puts("Removing #{zip_file}")
