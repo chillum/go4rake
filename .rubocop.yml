@@ -1,3 +1,9 @@
+Metrics/AbcSize:
+  Enabled: false
+Metrics/ClassLength:
+  Enabled: false
+Metrics/MethodLength:
+  Enabled: false
 Naming/MethodParameterName:
   Enabled: false
 Style/BlockDelimiters:

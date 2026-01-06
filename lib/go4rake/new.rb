@@ -2,6 +2,7 @@
 
 require 'rake/tasklib'
 require 'yaml'
+require 'fileutils'
 require 'zip/filesystem'
 
 # Rake tasks to cross-compile Go project and ZIP the binaries:
@@ -15,7 +16,7 @@ require 'zip/filesystem'
 #
 # Offline copies of README and example config are also included in this gem.
 #
-class Go4Rake < ::Rake::TaskLib
+class Go4Rake < Rake::TaskLib
   # Load configuration file and initialize Rake tasks for cross-compiling Go programs.
   def initialize(yml = 'go4rake.yml')
     super()
@@ -99,7 +100,7 @@ class Go4Rake < ::Rake::TaskLib
 
   # Set GOARCH and GOOS.
   def setenv(os, arch)
-    ENV['GOARCH'] = arch ? arch.to_s : nil
+    ENV['GOARCH'] = arch&.to_s
     ENV['GOOS']   = os
   end
 
@@ -129,7 +130,7 @@ class Go4Rake < ::Rake::TaskLib
       files.push('NOTICE') if File.exist?('NOTICE')
     end
 
-    File.delete(zip_file) if File.exist?(zip_file)
+    FileUtils.rm_f(zip_file)
     Zip::File.open(zip_file, Zip::File::CREATE) do |zip|
       [*files].each { |i|
         t = File.basename(i)
