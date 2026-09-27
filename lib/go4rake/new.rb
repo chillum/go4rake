@@ -131,7 +131,7 @@ class Go4Rake < Rake::TaskLib
     end
 
     FileUtils.rm_f(zip_file)
-    Zip::File.open(zip_file, Zip::File::CREATE) do |zip|
+    Zip::File.open(zip_file, create: true) do |zip|
       [*files].each { |i|
         t = File.basename(i)
         zip.add(t, i)
